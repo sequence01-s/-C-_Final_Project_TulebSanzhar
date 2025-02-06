@@ -43,7 +43,8 @@ void showMenu() {
 int main() {
     int choice;
     double num1, num2;
-    
+    const double M_PI = 3.141592653589793;
+
     do {
         showMenu();
         cin >> choice;
