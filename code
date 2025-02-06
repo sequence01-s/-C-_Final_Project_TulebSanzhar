@@ -1,24 +1,24 @@
-#include <iostream>
-#include <iomanip> 
 
+#define _USE_MATH_DEFINES
+#include <iostream>
+#include <cmath>
+#include <iomanip>
 
 using namespace std;
 
-long long factorial(int n) {
-    if (n < 0) return -1; // Отрицательные числа не могут 
+long long factorial(int n) {                      // короче это для того чтобы функция 13 факториала работала     
+    if (n < 0) return -1;
     long long fact = 1;
-    for (int i = 1; i <= n; ++i) {
-        fact *= i;
-    }
+    for (int i = 1; i <= n; ++i) fact *= i;
     return fact;
 }
 
-double derivative(double (*func)(double), double x) {
-    double h = 1e-5; // Инкремент уменьшаем
+double derivative(double (*func)(double), double x) {  // также но только путем решения через формулу лимита вычилялась производная
+    double h = 1e-5;
     return (func(x + h) - func(x - h)) / (2 * h);
 }
 
-void showMenu() {
+void showMenu() {    // дизайн
     cout << "\n============================\n";
     cout << "|  Engineering Calculator   |\n";
     cout << "============================\n";
@@ -40,104 +40,99 @@ void showMenu() {
     cout << "Select an operation: ";
 }
 
-int main() {
-    int choice;
-    double num1, num2;
-    const double M_PI = 3.141592653589793;
+void performMultiInputOperation(int choice) { //отдельно чтобы можно вводить до 10 чисел к первым 4 функциям
+    int count;
+    double numbers[10], result;
+    cout << "Enter number of values (max 10): ";
+    cin >> count;
+    if (count > 10 || count < 2) {
+        cout << "Error: Enter between 2 and 10 numbers!\n";
+        return;
+    }
+    cout << "Enter " << count << " numbers: ";
+    for (int i = 0; i < count; i++) cin >> numbers[i];
 
+    switch (choice) {
+    case 1: result = 0; for (int i = 0; i < count; i++) result += numbers[i]; break;
+    case 2: result = numbers[0]; for (int i = 1; i < count; i++) result -= numbers[i]; break;
+    case 3: result = 1; for (int i = 0; i < count; i++) result *= numbers[i]; break;
+    case 4: result = numbers[0];
+        for (int i = 1; i < count; i++) {
+            if (numbers[i] == 0) { cout << "Error: Division by zero!\n"; return; }
+            result /= numbers[i];
+        }
+        break;
+    }
+    cout << "Result: " << result << "\n";
+}
+
+int main()   { // остальный функции
+    int choice;
     do {
         showMenu();
         cin >> choice;
-
-        switch (choice) {
-        case 1: // сложение +
-            cout << "Enter two numbers: ";
-            cin >> num1 >> num2;
-            cout << "Рesult: " << num1 + num2 << "\n";
-            break;
-        case 2: // вычитание
-            cout << "Enter two numbers: ";
-            cin >> num1 >> num2;
-            cout << "Result: " << num1 - num2 << "\n";
-            break;
-        case 3: // умножалка
-            cout << "Enter two numbers: ";
-            cin >> num1 >> num2;
-            cout << "Result: " << num1 * num2 << "\n";
-            break;
-        case 4: // деленка
-            cout << "Enter two numbers: ";
-            cin >> num1 >> num2;
-            if (num2 != 0)
-                cout << "Result: " << num1 / num2 << "\n";
-            else
-                cout << "Error : division to 0!\n";
-            break;
-        case 5: // степа
-            cout << "Enter the base and exponent of the degree: ";
-            cin >> num1 >> num2;
-            cout << "Result: " << pow(num1, num2) << "\n";
-            break;
-        case 6: // корень
-            cout << "Enter a number: ";
-            cin >> num1;
-            if (num1 >= 0)
-                cout << "Result: " << sqrt(num1) << "\n";
-            else
-                cout << "Are you stupid? What's the root of a negative number?\n";
-            break;
-        case 7: // натуральный логарифм
-            cout << "Enter a number: ";
-            cin >> num1;
-            if (num1 > 0)
-                cout << "Result: " << log(num1) << "\n";
-            else
-                cout << "Error: Logarithm is defined only for positive numbers!\n";
-            break;
-        case 8: // логарифм из 10
-            cout << "Enter a number: ";
-            cin >> num1;
-            if (num1 > 0)
-                cout << "Result: " << log10(num1) << "\n";
-            else
-                cout << "Error: Logarithm is defined only for positive numbers!\n";
-            break;
-        case 9: // синус
-            cout << "Enter the angle in degrees: ";
-            cin >> num1;
-            cout << "Result: " << sin(num1 * M_PI / 180.0) << "\n";
-            break;
-        case 10: // косинус
-            cout << "Enter the angle in degrees: ";
-            cin >> num1;
-            cout << "Result: " << cos(num1 * M_PI / 180.0) << "\n";
-            break;
-        case 11: // тангенс
-            cout << "Enter the angle in degrees: ";
-            cin >> num1;
-            if (cos(num1 * M_PI / 180.0) != 0)
-                cout << "Result: " << tan(num1 * M_PI / 180.0) << "\n";
-            else
-                cout << "Error: Tangent is not defined for angles 90 + 180k degrees!\n";
-            break;
-        case 12: // факториал
-            int n;
-            cout << "Enter a number: ";
-            cin >> n;
-            cout << "Result: " << factorial(n) << "\n";
-            break;
-        case 13: // производная
-            cout << "Enter a point x: ";
-            cin >> num1;
-            cout << "Result: " << derivative(sin, num1) << "\n";
-            break;
-        case 0:
-            cout << "Exit a program.\n";
-            break;
-        default:
-            cout << "Error : Wrong input! Try again!\n";
+        if (choice >= 1 && choice <= 4) {
+            performMultiInputOperation(choice);
+        }
+        else {
+            double num;
+            switch (choice) {
+            case 5: {                                         // степень
+                double base, exponent;
+                cout << "Enter base and exponent: ";
+                cin >> base >> exponent;
+                cout << "Result: " << pow(base, exponent) << "\n";
+                break;
+            }
+            case 6:  cout << "Enter a number: "; // корень
+                cin >> num;
+                if (num >= 0)
+                    cout << "Result: " << sqrt(num) << "\n";
+                else
+                    cout << "Are you stupid? What's the root of a negative number?\n";
+                break;
+            case 7: case 8:
+                cout << "Enter a number: "; cin >> num;
+                if (num > 0) cout << "Result: " << (choice == 7 ? log(num) : log10(num)) << "\n";
+                else cout << "Error: Logarithm is defined for positive numbers only!\n";
+                break;
+            case 9: // синус
+                cout << "Enter the angle in degrees: ";
+                cin >> num;
+                cout << "Result: " << sin(num * M_PI / 180.0) << "\n";
+                break;
+            case 10: // косинус
+                cout << "Enter the angle in degrees: ";
+                cin >> num;
+                cout << "Result: " << cos(num * M_PI / 180.0) << "\n";
+                break;
+            case 11: // тангенс
+                cout << "Enter the angle in degrees: ";
+                cin >> num;
+                if (cos(num * M_PI / 180.0) != 0)
+                    cout << "Result: " << tan(num * M_PI / 180.0) << "\n";
+                else
+                    cout << "Error: Tangent is not defined for angles 90 + 180k degrees!\n";
+                break;
+            case 12: // факториал
+                int n;
+                cout << "Enter a number: ";
+                cin >> n;
+                cout << "Result: " << factorial(n) << "\n";
+                break;
+            case 13: // производная
+                cout << "Enter a point x: ";
+                cin >> num;
+                cout << "Result: " << derivative(sin, num) << "\n";
+                break;
+            case 0:
+                cout << "Exit a program.\n";
+                break;
+            default:
+                cout << "Error : Wrong input! Try again!\n";
+            }
         }
     } while (choice != 0);
 
-    return 0;
-}
+        return 0;
+    }
