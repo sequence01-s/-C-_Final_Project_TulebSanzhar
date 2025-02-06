@@ -1,0 +1,141 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+
+long long factorial(int n) {
+    if (n < 0) return -1; // Ошибка для отрицательных чисел
+    long long fact = 1;
+    for (int i = 1; i <= n; ++i) {
+        fact *= i;
+    }
+    return fact;
+}
+
+double derivative(double (*func)(double), double x) {
+    double h = 1e-5; // Маленькое приращение
+    return (func(x + h) - func(x - h)) / (2 * h);
+}
+
+void showMenu() {
+    cout << "\n=== Engineer calculator ===\n";
+    cout << "1. Addition (+)\n";
+    cout << "2.  Subtruction (-)\n";
+    cout << "3. Multiplication  (*)\n";
+    cout << "4.  Division (/)\n";
+    cout << "5. Degree (^)\n";
+    cout << "6. Square root (sqrt)\n";
+    cout << "7. Natural logarithm  (ln)\n";
+    cout << "8. Logarithm on base 10(log)\n";
+    cout << "9. Sin (sin)\n";
+    cout << "10. Cos (cos)\n";
+    cout << "11. Tan (tan)\n";
+    cout << "12. Factorial (n!)\n";
+    cout << "13. Derivative (df/dx)\n";
+    cout << "0. Exit\n";
+    cout << "Chose operation: ";
+}
+
+   
+
+int main() {
+    int choice;
+    double num1, num2;
+    const double M_PI = 3.141592653589793;
+    do {
+        showMenu();
+        cin >> choice;
+
+        switch (choice) {
+        case 1: // addition
+            cout << "Enter two numbers: ";
+            cin >> num1 >> num2;
+            cout << "Рesult: " << num1 + num2 << "\n";
+            break;
+        case 2: // substruction
+            cout << "Enter two numbers: ";
+            cin >> num1 >> num2;
+            cout << "Result: " << num1 - num2 << "\n";
+            break;
+        case 3: // Multiplication
+            cout << "Enter two numbers: ";
+            cin >> num1 >> num2;
+            cout << "Result: " << num1 * num2 << "\n";
+            break;
+        case 4: // Division
+            cout << "Enter two numbers: ";
+            cin >> num1 >> num2;
+            if (num2 != 0)
+                cout << "Result: " << num1 / num2 << "\n";
+            else
+                cout << "Error : division to 0!\n";
+            break;
+        case 5: // Degree
+            cout << "Enter the base and exponent of the degree: ";
+            cin >> num1 >> num2;
+            cout << "Result: " << pow(num1, num2) << "\n";
+            break;
+        case 6: // Square root
+            cout << "Enter a number: ";
+            cin >> num1;
+            if (num1 >= 0)
+                cout << "Result: " << sqrt(num1) << "\n";
+            else
+                cout << "Are you stupid? What's the root of a negative number?\n";
+            break;
+        case 7: // Natural logarithm
+            cout << "Enter a number: ";
+            cin >> num1;
+            if (num1 > 0)
+                cout << "Result: " << log(num1) << "\n";
+            else
+                cout << "Error: Logarithm is defined only for positive numbers!\n";
+            break;
+        case 8: // ЛLogarithm on base 10
+            cout << "Enter a number: ";
+            cin >> num1;
+            if (num1 > 0)
+                cout << "Result: " << log10(num1) << "\n";
+            else
+                cout << "Error: Logarithm is defined only for positive numbers!\n";
+            break;
+        case 9: // sin sign
+            cout << "Enter the angle in degrees: ";
+            cin >> num1;
+            cout << "Результат: " << sin(num1 * M_PI / 180.0) << "\n";
+            break;
+        case 10: // cos sign
+            cout << "Enter the angle in degrees: ";
+            cin >> num1;
+            cout << "Result: " << cos(num1 * M_PI / 180.0) << "\n";
+            break;
+        case 11: // tan sign 
+            cout << "Enter the angle in degrees: ";
+            cin >> num1;
+            if (cos(num1 * M_PI / 180.0) != 0)
+                cout << "Result: " << tan(num1 * M_PI / 180.0) << "\n";
+            else
+                cout << "Error: Tangent is not defined for angles 90 + 180k degrees!\n";
+            break;
+        case 12: // Factorial
+            int n;
+            cout << "Enter a number: ";
+            cin >> n;
+            cout << "Result: " << factorial(n) << "\n";
+            break;
+        case 13: // Derivative
+            cout << "Enter a point x: ";
+            cin >> num1;
+            cout << "Result: " << derivative(sin, num1) << "\n";
+            break;
+        case 0:
+            cout << "Exit a program.\n";
+            break;
+        default:
+            cout << "Error : Wrong input! Try again!\n";
+        }
+    } while (choice != 0);
+
+    return 0;
+}
