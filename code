@@ -1,10 +1,11 @@
 #include <iostream>
+#include <iomanip> 
+
 
 using namespace std;
 
-
 long long factorial(int n) {
-    if (n < 0) return -1; // Ошибка для отрицательных чисел
+    if (n < 0) return -1; // Отрицательные числа не могут 
     long long fact = 1;
     for (int i = 1; i <= n; ++i) {
         fact *= i;
@@ -13,56 +14,57 @@ long long factorial(int n) {
 }
 
 double derivative(double (*func)(double), double x) {
-    double h = 1e-5; // Маленькое приращение
+    double h = 1e-5; // Инкремент уменьшаем
     return (func(x + h) - func(x - h)) / (2 * h);
 }
 
 void showMenu() {
-    cout << "\n=== Engineer calculator ===\n";
-    cout << "1. Addition (+)\n";
-    cout << "2.  Subtruction (-)\n";
-    cout << "3. Multiplication  (*)\n";
-    cout << "4.  Division (/)\n";
-    cout << "5. Degree (^)\n";
-    cout << "6. Square root (sqrt)\n";
-    cout << "7. Natural logarithm  (ln)\n";
-    cout << "8. Logarithm on base 10(log)\n";
-    cout << "9. Sin (sin)\n";
-    cout << "10. Cos (cos)\n";
-    cout << "11. Tan (tan)\n";
-    cout << "12. Factorial (n!)\n";
-    cout << "13. Derivative (df/dx)\n";
-    cout << "0. Exit\n";
-    cout << "Chose operation: ";
+    cout << "\n============================\n";
+    cout << "|  Engineering Calculator   |\n";
+    cout << "============================\n";
+    cout << "| [1]  Addition (+)       |\n";
+    cout << "| [2]  Subtraction (-)    |\n";
+    cout << "| [3]  Multiplication (*) |\n";
+    cout << "| [4]  Division (/)       |\n";
+    cout << "| [5]  Power (^)         |\n";
+    cout << "| [6]  Square Root (sqrt) |\n";
+    cout << "| [7]  Natural Log (ln)   |\n";
+    cout << "| [8]  Log Base 10 (log)  |\n";
+    cout << "| [9]  Sine (sin)        |\n";
+    cout << "| [10] Cosine (cos)      |\n";
+    cout << "| [11] Tangent (tan)     |\n";
+    cout << "| [12] Factorial (n!)    |\n";
+    cout << "| [13] Derivative (df/dx)|\n";
+    cout << "| [0]  Exit              |\n";
+    cout << "============================\n";
+    cout << "Select an operation: ";
 }
-
-   
 
 int main() {
     int choice;
     double num1, num2;
-    const double M_PI = 3.141592653589793;
+    
     do {
         showMenu();
         cin >> choice;
 
         switch (choice) {
-        case 1: // addition
+        case 1: // сложение +
             cout << "Enter two numbers: ";
             cin >> num1 >> num2;
             cout << "Рesult: " << num1 + num2 << "\n";
             break;
-        case 2: // substruction
+        case 2: // вычитание
             cout << "Enter two numbers: ";
             cin >> num1 >> num2;
             cout << "Result: " << num1 - num2 << "\n";
             break;
-        case 3: // Multiplication
+        case 3: // умножалка
             cout << "Enter two numbers: ";
             cin >> num1 >> num2;
             cout << "Result: " << num1 * num2 << "\n";
             break;
-        case 4: // Division
+        case 4: // деленка
             cout << "Enter two numbers: ";
             cin >> num1 >> num2;
             if (num2 != 0)
@@ -70,12 +72,12 @@ int main() {
             else
                 cout << "Error : division to 0!\n";
             break;
-        case 5: // Degree
+        case 5: // степа
             cout << "Enter the base and exponent of the degree: ";
             cin >> num1 >> num2;
             cout << "Result: " << pow(num1, num2) << "\n";
             break;
-        case 6: // Square root
+        case 6: // корень
             cout << "Enter a number: ";
             cin >> num1;
             if (num1 >= 0)
@@ -83,7 +85,7 @@ int main() {
             else
                 cout << "Are you stupid? What's the root of a negative number?\n";
             break;
-        case 7: // Natural logarithm
+        case 7: // натуральный логарифм
             cout << "Enter a number: ";
             cin >> num1;
             if (num1 > 0)
@@ -91,7 +93,7 @@ int main() {
             else
                 cout << "Error: Logarithm is defined only for positive numbers!\n";
             break;
-        case 8: // ЛLogarithm on base 10
+        case 8: // логарифм из 10
             cout << "Enter a number: ";
             cin >> num1;
             if (num1 > 0)
@@ -99,17 +101,17 @@ int main() {
             else
                 cout << "Error: Logarithm is defined only for positive numbers!\n";
             break;
-        case 9: // sin sign
+        case 9: // синус
             cout << "Enter the angle in degrees: ";
             cin >> num1;
-            cout << "Результат: " << sin(num1 * M_PI / 180.0) << "\n";
+            cout << "Result: " << sin(num1 * M_PI / 180.0) << "\n";
             break;
-        case 10: // cos sign
+        case 10: // косинус
             cout << "Enter the angle in degrees: ";
             cin >> num1;
             cout << "Result: " << cos(num1 * M_PI / 180.0) << "\n";
             break;
-        case 11: // tan sign 
+        case 11: // тангенс
             cout << "Enter the angle in degrees: ";
             cin >> num1;
             if (cos(num1 * M_PI / 180.0) != 0)
@@ -117,13 +119,13 @@ int main() {
             else
                 cout << "Error: Tangent is not defined for angles 90 + 180k degrees!\n";
             break;
-        case 12: // Factorial
+        case 12: // факториал
             int n;
             cout << "Enter a number: ";
             cin >> n;
             cout << "Result: " << factorial(n) << "\n";
             break;
-        case 13: // Derivative
+        case 13: // производная
             cout << "Enter a point x: ";
             cin >> num1;
             cout << "Result: " << derivative(sin, num1) << "\n";
